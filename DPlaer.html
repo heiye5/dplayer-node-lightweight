@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>视频弹幕演示</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.css">
+</head>
+
+<body>
+    <div id="dplayer"></div>
+    <script src="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js"></script>
+    <script>
+        const videoId = 'test'; // ❗ 替换为实际视频 ID（如 1028，需与后端一致）
+        const dp = new DPlayer({
+            container: document.getElementById('dplayer'),
+            video: {
+                url: 'video/test.mp4', // 视频路径
+                type: 'mp4',
+                name: '演示视频'
+            },
+            danmaku: {
+                id: videoId, // 必须与后端路由中的 :id 一致
+                api: 'http://127.0.0.1:3000/', // 后端弹幕服务根路径
+                addition: [
+                    // 外挂弹幕
+                    //`http://127.0.0.1:3000/` 
+                ]
+            }
+        });
+
+        // 监听 DPlayer 的弹幕发送事件
+        dp.on('danmaku_send', (danmaku) => {
+            console.log('发送请求')
+            console.log('视频ID：' + videoId)
+        });
+    </script>
+</body>
+
+</html>
